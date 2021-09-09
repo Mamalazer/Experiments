@@ -3,9 +3,8 @@ package ru.bitelecom.selenide.tests;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import io.qameta.allure.Owner;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -34,6 +33,9 @@ public class Tests {
     }
 
     @Test
+    @Owner("Pushkin")
+    @Tag("one")
+    @DisplayName("Первый тест на Selenide")
     public void firstSelenide(){
         open("https://www.google.ru/");
         $(By.name("q")).setValue("Открытие Википедия").pressEnter();
@@ -50,6 +52,9 @@ public class Tests {
     }
 
     @Test
+    @Owner("Tolstoy")
+    @Tag("two")
+    @DisplayName("Проверка курса валют на сайте Открытия")
     public void otkrSelenide(){
         GoogleMainPage googlePage = open("https://www.google.ru/", GoogleMainPage.class);
         GoogleSearchResult googleSearchResult = googlePage.search("Открытие банк");
