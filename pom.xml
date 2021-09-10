@@ -27,6 +27,10 @@
         <fasterxml.jackson.version>2.10.3</fasterxml.jackson.version>
         <org.json.version>20190722</org.json.version>
 
+        <allure.java.commons.version>2.14.0</allure.java.commons.version>
+        <junit.param.version>5.8.0-RC1</junit.param.version>
+        <commons.io.version>2.11.0</commons.io.version>
+
         <!--Плагины-->
         <allure-maven.version>2.10.0</allure-maven.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -55,6 +59,26 @@
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
             <version>${junit.platform.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Parametrized test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.param.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-java-commons</artifactId>
+            <version>${allure.java.commons.version}</version>
         </dependency>
 
         <!-- junit5 allure adapter -->
@@ -134,7 +158,16 @@
             <artifactId>json</artifactId>
             <version>${org.json.version}</version>
         </dependency>
+
+        <!-- Скрины -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+        </dependency>
+
     </dependencies>
+
 
     <build>
         <plugins>

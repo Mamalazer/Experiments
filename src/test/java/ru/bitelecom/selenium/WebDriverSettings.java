@@ -15,9 +15,9 @@ public class WebDriverSettings {
     WebDriver chromeDriver;
 
     @BeforeEach
-    public void installSettings(){
-        System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
-        //System.setProperty("webdriver.chrome.driver",System.getenv("CHROME_DRIVER"));
+    public void installSettings() {
+        //System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER"));
         chromeDriver = new ChromeDriver();
         chromeDriver.manage().window().maximize();
         chromeDriver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
@@ -26,12 +26,12 @@ public class WebDriverSettings {
     }
 
     @AfterEach
-    public void cliseBrowser(){
+    public void cliseBrowser() {
         chromeDriver.quit();
     }
 
-//    @BeforeEach
-    private void startTestInDocker(){
+    //    @BeforeEach
+    private void startTestInDocker() {
         final DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setVersion("80.0");
         capabilities.setCapability("enableVNC", true);
@@ -39,7 +39,7 @@ public class WebDriverSettings {
 
         try {
             chromeDriver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), capabilities);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -50,11 +50,11 @@ public class WebDriverSettings {
 
     }
 
-//    @AfterEach
-    private void endTestInDocker(){
-        if(chromeDriver!=null){
+    //    @AfterEach
+    private void endTestInDocker() {
+        if (chromeDriver != null) {
             chromeDriver.quit();
-            chromeDriver=null;
+            chromeDriver = null;
         }
     }
 
