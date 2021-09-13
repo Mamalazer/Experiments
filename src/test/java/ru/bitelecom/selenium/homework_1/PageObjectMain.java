@@ -25,7 +25,6 @@ public class PageObjectMain {
     }
 
     public void search(String searchWord) {
-        searchButton.click();
         searchField.sendKeys(searchWord);
         searchButton.click();
     }
