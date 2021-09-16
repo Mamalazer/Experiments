@@ -1,4 +1,4 @@
-package ru.bitelecom.selenium;
+package ru.bitelecom.selenium.homework_2;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

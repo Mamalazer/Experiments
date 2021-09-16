@@ -1,0 +1,13 @@
+1) //a[text()='Home']
+2) //a[@class='fontReset']
+3) //input[@class='inputbox-search']
+4) //a[text()='Selenium']
+5) //td[@valign='top']//div[2]//a[@class='contentpagetitle']
+6) //ul[@class='clearfix']/li[contains(@class, 'tpmenuid2') or contains(@class, 'tpmenuid3')]
+7) //label[@for='fname']
+8) //input[@data-test-id='last-name']
+9) //input[@class='input-0-2-101' and @value='female']/parent::div
+10) //span[text()='Женский']
+11) ?
+12) //form/button[@type='submit']
+ 
