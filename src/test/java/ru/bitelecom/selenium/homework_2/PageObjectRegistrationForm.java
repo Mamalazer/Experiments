@@ -29,7 +29,7 @@ public class PageObjectRegistrationForm {
 
     public PageObjectRegistrationForm(WebDriver driver) {
         this.driver = driver;
-        action = new Actions(this.driver);
+        this.action = new Actions(this.driver);
         this.driver.get("https://account.mail.ru/signup?from=vk");
         this.firstName = driver.findElement(By.xpath("//input[@data-test-id='first-name']"));
         this.lastName = driver.findElement(By.xpath("//input[@data-test-id='last-name']"));
@@ -74,6 +74,9 @@ public class PageObjectRegistrationForm {
         }
 
         birthDay.click();
+//        String html = driver.findElement(By.xpath("//div[@data-test-id='select-option-wrapper']")).getAttribute("innerHTML");
+//        System.out.println(html);
+//        driver.findElement(By.xpath("//div[@data-test-id='select-option-wrapper']//span[text()='20']")).click();
 
         for (int i = 1; i < day; i++) {
             action.sendKeys(Keys.ARROW_DOWN).build().perform();

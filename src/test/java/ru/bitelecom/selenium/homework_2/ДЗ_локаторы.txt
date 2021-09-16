@@ -8,6 +8,6 @@
 8) //input[@data-test-id='last-name']
 9) //input[@class='input-0-2-101' and @value='female']/parent::div
 10) //span[text()='Женский']
-11) ?
+11) //div[@data-test-id='select-option-wrapper']//span[text()='@list.ru']
 12) //form/button[@type='submit']
  
