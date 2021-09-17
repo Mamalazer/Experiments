@@ -13,9 +13,12 @@ public class Tests extends WebDriverSettings {
 
         Steps.setFirstName(pageObjectRegistrationForm, "TestFirstName");
         Steps.setLastName(pageObjectRegistrationForm, "TestLastName");
-        Steps.setBirthDay(pageObjectRegistrationForm, 14);
-        Steps.setBirthMonth(pageObjectRegistrationForm, 5);
-        Steps.setBirthYear(pageObjectRegistrationForm, 1993, 2021);
+//        Steps.setBirthDay(pageObjectRegistrationForm, 14);
+        Steps.setBirthDay(pageObjectRegistrationForm, "14");
+//        Steps.setBirthMonth(pageObjectRegistrationForm, 5);
+        Steps.setBirthMonth(pageObjectRegistrationForm, "Май");
+//        Steps.setBirthYear(pageObjectRegistrationForm, 1993, 2021);
+        Steps.setBirthYear(pageObjectRegistrationForm, "1993");
         Steps.setGender(pageObjectRegistrationForm, "female");
         Steps.setMailDomain(pageObjectRegistrationForm, "@list.ru");
         Steps.setAccountName(pageObjectRegistrationForm, "TestNameTestLastName");

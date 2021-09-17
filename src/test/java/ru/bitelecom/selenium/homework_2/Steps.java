@@ -40,6 +40,17 @@ public class Steps {
     }
 
     @Step
+    @Description("Step 3. Set day birthday {day}")
+    public static void setBirthDay(PageObjectRegistrationForm obj, String day) {
+        if (obj.setBirthDay(day)) {
+            Assertions.assertTrue(true);
+        } else {
+            CustomUtils.getScreen(obj.getDriver());
+            Assertions.fail("Error in setting day birthday");
+        }
+    }
+
+    @Step
     @Description("Step 4. Set month of birthday")
     public static void setBirthMonth(PageObjectRegistrationForm obj, int orderNumOfMonth) {
         if (obj.setBirthMonth(orderNumOfMonth)) {
@@ -51,9 +62,31 @@ public class Steps {
     }
 
     @Step
+    @Description("Step 4. Set month of birthday")
+    public static void setBirthMonth(PageObjectRegistrationForm obj, String month) {
+        if (obj.setBirthMonth(month)) {
+            Assertions.assertTrue(true);
+        } else {
+            CustomUtils.getScreen(obj.getDriver());
+            Assertions.fail("Error in setting month of birthday " + month);
+        }
+    }
+
+    @Step
     @Description("Step 5. Set year of birthday {birthdayYear}")
     public static void setBirthYear(PageObjectRegistrationForm obj, int birthdayYear, int actualYear) {
         if (obj.setBirthYear(birthdayYear, actualYear)) {
+            Assertions.assertTrue(true);
+        } else {
+            CustomUtils.getScreen(obj.getDriver());
+            Assertions.fail("Error in setting year of birthday");
+        }
+    }
+
+    @Step
+    @Description("Step 5. Set year of birthday {birthdayYear}")
+    public static void setBirthYear(PageObjectRegistrationForm obj, String birthdayYear) {
+        if (obj.setBirthYear(birthdayYear)) {
             Assertions.assertTrue(true);
         } else {
             CustomUtils.getScreen(obj.getDriver());

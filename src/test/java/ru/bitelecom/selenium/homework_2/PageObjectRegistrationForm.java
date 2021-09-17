@@ -90,6 +90,17 @@ public class PageObjectRegistrationForm {
         return true;
     }
 
+    public boolean setBirthDay(String day) {
+        birthDay.click();
+        driver.findElement(By.xpath("//div[@data-test-id='select-option-wrapper']//span[text()='" + day + "']")).click();
+
+        if (!driver.findElement(By.xpath("//span[contains(@data-test-id, 'birth-date__day-value:')]")).getText()
+                .equals(day)) {
+            return false;
+        }
+        return true;
+    }
+
     public boolean setBirthMonth(int orderNumOfMonth) {
         String[] months = new String[] {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август",
                                         "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
@@ -113,6 +124,16 @@ public class PageObjectRegistrationForm {
 
     }
 
+    public boolean setBirthMonth(String month) {
+        birthMonth.click();
+        driver.findElement(By.xpath("//div[@data-test-id='select-option-wrapper']//span[text()='" + month + "']")).click();
+        if (!driver.findElement(By.xpath("//span[contains(@data-test-id, 'birth-date__month-value:')]")).getText()
+                .equals(month)) {
+            return false;
+        }
+        return true;
+    }
+
     public boolean setBirthYear(int birthdayYear, int actualYear) {
         int iterate = actualYear - birthdayYear;
         birthYear.click();
@@ -121,6 +142,17 @@ public class PageObjectRegistrationForm {
             action.sendKeys(Keys.ARROW_DOWN).build().perform();
         }
         action.sendKeys(Keys.ENTER).build().perform();
+
+        if (!driver.findElement(By.xpath("//span[contains(@data-test-id, 'birth-date__year-value:')]")).getText()
+                .equals(String.valueOf(birthdayYear))) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean setBirthYear(String birthdayYear) {
+        birthYear.click();
+        driver.findElement(By.xpath("//div[@data-test-id='select-option-wrapper']//span[text()='" + birthdayYear + "']")).click();
 
         if (!driver.findElement(By.xpath("//span[contains(@data-test-id, 'birth-date__year-value:')]")).getText()
                 .equals(String.valueOf(birthdayYear))) {
@@ -148,14 +180,8 @@ public class PageObjectRegistrationForm {
     }
 
     public boolean setMailDomen(String domen) {
-        List<String> domens = Arrays.asList("@mail.ru", "@internet.ru", "@bk.ru", "@inbox.ru", "@list.ru");
-
         mailDomen.click();
-
-        for (int i = 0; i < domens.indexOf(domen); i++) {
-            action.sendKeys(Keys.ARROW_DOWN).build().perform();
-        }
-        action.sendKeys(Keys.ENTER).build().perform();
+        driver.findElement(By.xpath("//div[@data-test-id='select-option-wrapper']//span[text()='" + domen + "']")).click();
 
         if (!driver.findElement(By.xpath("//span[contains(@data-test-id, 'account__select-value:')]")).getText()
                 .equals(domen)) {
