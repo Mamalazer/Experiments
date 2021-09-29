@@ -25,7 +25,7 @@ public class WebDriverSettings {
         chromeDriver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
     }
 
-    //@AfterEach
+    @AfterEach
     public void closeBrowser() {
         chromeDriver.quit();
     }

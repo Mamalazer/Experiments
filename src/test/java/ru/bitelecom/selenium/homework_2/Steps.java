@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 public class Steps {
 
     @Step
-    @Description("Step 1. Set first name {firstName}")
+    @Description("Set first name {firstName}")
     public static void setFirstName(PageObjectRegistrationForm obj, String firstName) {
         if (obj.setFirstName(firstName)) {
             Assertions.assertTrue(true);
@@ -18,7 +18,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 2. Set last name {lastName}")
+    @Description("Set last name {lastName}")
     public static void setLastName(PageObjectRegistrationForm obj, String lastName) {
         if (obj.setLastName(lastName)) {
             Assertions.assertTrue(true);
@@ -29,7 +29,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 3. Set day birthday {day}")
+    @Description("Set day birthday {day}")
     public static void setBirthDay(PageObjectRegistrationForm obj, int day) {
         if (obj.setBirthDay(day)) {
             Assertions.assertTrue(true);
@@ -40,7 +40,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 3. Set day birthday {day}")
+    @Description("Set day birthday {day}")
     public static void setBirthDay(PageObjectRegistrationForm obj, String day) {
         if (obj.setBirthDay(day)) {
             Assertions.assertTrue(true);
@@ -51,7 +51,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 4. Set month of birthday")
+    @Description("Set month of birthday")
     public static void setBirthMonth(PageObjectRegistrationForm obj, int orderNumOfMonth) {
         if (obj.setBirthMonth(orderNumOfMonth)) {
             Assertions.assertTrue(true);
@@ -62,7 +62,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 4. Set month of birthday")
+    @Description("Set month of birthday")
     public static void setBirthMonth(PageObjectRegistrationForm obj, String month) {
         if (obj.setBirthMonth(month)) {
             Assertions.assertTrue(true);
@@ -73,7 +73,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 5. Set year of birthday {birthdayYear}")
+    @Description("Set year of birthday {birthdayYear}")
     public static void setBirthYear(PageObjectRegistrationForm obj, int birthdayYear, int actualYear) {
         if (obj.setBirthYear(birthdayYear, actualYear)) {
             Assertions.assertTrue(true);
@@ -84,7 +84,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 5. Set year of birthday {birthdayYear}")
+    @Description("Set year of birthday {birthdayYear}")
     public static void setBirthYear(PageObjectRegistrationForm obj, String birthdayYear) {
         if (obj.setBirthYear(birthdayYear)) {
             Assertions.assertTrue(true);
@@ -95,7 +95,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 6. Set gender {gender}")
+    @Description("Set gender {gender}")
     public static void setGender(PageObjectRegistrationForm obj, String gender) {
         if (gender.equals("male")) {
             if (obj.setMaleRadioButton()) {
@@ -117,7 +117,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 7. Set mail domain {domen}")
+    @Description("Set mail domain {domen}")
     public static void setMailDomain(PageObjectRegistrationForm obj, String domen) {
         if (obj.setMailDomen(domen)) {
             Assertions.assertTrue(true);
@@ -128,7 +128,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 8. Set account name for mail {accountName}")
+    @Description("Set account name for mail {accountName}")
     public static void setAccountName(PageObjectRegistrationForm obj, String accountName) {
         if (obj.setAccountName(accountName)) {
             Assertions.assertTrue(true);
@@ -139,7 +139,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 9. Generating password")
+    @Description("Generating password")
     public static void generatePassword(PageObjectRegistrationForm obj) {
         if (obj.generatePassword()) {
             Assertions.assertTrue(true);
@@ -150,7 +150,7 @@ public class Steps {
     }
 
     @Step
-    @Description("Step 10. Submit registration form")
+    @Description("Submit registration form")
     public static void submitRegistration(PageObjectRegistrationForm obj) {
         if (obj.submitRegistration()) {
             CustomUtils.getScreen(obj.getDriver());
