@@ -25,6 +25,7 @@ public class Tests {
 
     @BeforeEach
     public void option(){
+        //для того, чтобы постоянно не применять эти параметры в каждом тесте, то конфигурацию пред\before и пост\after условий можно вынести в базовый класс 
         Configuration.timeout = 6000;
         Configuration.browser="chrome";
         Configuration.startMaximized=true;
@@ -80,9 +81,13 @@ public class Tests {
     @Tag("two")
     @DisplayName("Search in e-katalog ")
     public void searchAndFilterWithPO(){
+        //TODO для того чтобы постоянно не объявлять экземпляны pageObject можно использовать цепочки вызовов, как в примере mailru. тогда через точку просто продолжается вызов следующего шага, но можно и так.
         EkatalogMainPage ekatalogMainPage = open("https://www.e-katalog.ru/", EkatalogMainPage.class);
         EkatalogFilterPage ekatalogFilterPage = ekatalogMainPage.EkatalogFilterPage("Смартфоны");
-        EkatalogSearchResults ekatalogSearchResults = ekatalogFilterPage.installFilters("20000");
+        EkatalogSearchResults ekatalogSearchResults = ekatalogFilterPage.installFilters("20000"); // значения вводятся здесь, hardcode, а можно получать из config файла
+
+        // на уровень теста (сюда) если PageObject то не выносятся Assert, а скрываются внутри шага.
+        // Assertы сами описаны правильно
         Assertions.assertTrue(ekatalogSearchResults.checkPriceResults(20000), "Price bigger then installed");
         Assertions.assertTrue(ekatalogSearchResults.checkScreenResults(5.1, 5.5), "Size of the screen lower or bigger then installed");
     }
