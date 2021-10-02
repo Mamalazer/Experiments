@@ -7,8 +7,9 @@ import static com.codeborne.selenide.Selenide.*;
 public class EkatalogMainPage {
 
     public EkatalogFilterPage EkatalogFilterPage(String searchWord) {
-
-        $(By.xpath("//input[contains(@name,'search')]")).setValue(searchWord);
+        
+        //TODO аналогично FilterPage
+        $(By.xpath("//input[contains(@name,'search')]")).setValue(searchWord); 
         $(By.xpath("//button[contains(@name,'search')]")).click();
 
         switchTo().window(0);
