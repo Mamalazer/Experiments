@@ -1,7 +1,6 @@
 package ru.bitelecom.selenide.homework_1.tests;
 
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Owner;
 import org.junit.jupiter.api.*;
@@ -9,16 +8,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import ru.bitelecom.selenide.homework_1.pageObjects.EkatalogFilterPage;
-import ru.bitelecom.selenide.homework_1.pageObjects.EkatalogMainPage;
-import ru.bitelecom.selenide.homework_1.pageObjects.EkatalogSearchResults;
-import ru.bitelecom.selenide.pageObjects.GoogleMainPage;
-import ru.bitelecom.selenide.pageObjects.GoogleSearchResult;
-import ru.bitelecom.selenide.pageObjects.OpenMainPage;
+import ru.bitelecom.selenide.homework_1.pageObjects.FilterPage;
+import ru.bitelecom.selenide.homework_1.pageObjects.MainPage;
+import ru.bitelecom.selenide.homework_1.pageObjects.SearchResults;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
 public class Tests {
@@ -52,7 +47,7 @@ public class Tests {
 
         sleep(5000);
         $(By.xpath("//input[@id='maxPrice_']")).setValue("20000");
-        $(By.xpath("//label[@for='c16472']")).click();
+        $(By.xpath("//label[@for='c16472']/parent::li")).click();
         $(By.xpath("//input[contains(@id,'submit')]")).click();
         switchTo().window(0);
 
@@ -82,9 +77,9 @@ public class Tests {
     @DisplayName("Search in e-katalog ")
     public void searchAndFilterWithPO(){
         //TODO для того чтобы постоянно не объявлять экземпляны pageObject можно использовать цепочки вызовов, как в примере mailru. тогда через точку просто продолжается вызов следующего шага, но можно и так.
-        EkatalogMainPage ekatalogMainPage = open("https://www.e-katalog.ru/", EkatalogMainPage.class);
-        EkatalogFilterPage ekatalogFilterPage = ekatalogMainPage.EkatalogFilterPage("Смартфоны");
-        EkatalogSearchResults ekatalogSearchResults = ekatalogFilterPage.installFilters("20000"); // значения вводятся здесь, hardcode, а можно получать из config файла
+        MainPage ekatalogMainPage = open("https://www.e-katalog.ru/", MainPage.class);
+        FilterPage ekatalogFilterPage = ekatalogMainPage.FilterPage("Смартфоны");
+        SearchResults ekatalogSearchResults = ekatalogFilterPage.installFilters("20000"); // значения вводятся здесь, hardcode, а можно получать из config файла
 
         // на уровень теста (сюда) если PageObject то не выносятся Assert, а скрываются внутри шага.
         // Assertы сами описаны правильно
