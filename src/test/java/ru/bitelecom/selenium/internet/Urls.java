@@ -5,7 +5,10 @@ public enum Urls {
     addRemoveElements("http://the-internet.herokuapp.com/add_remove_elements/"),
     basicAuth("http://admin:admin@the-internet.herokuapp.com/basic_auth"),
     checkBoxes("http://the-internet.herokuapp.com/checkboxes"),
-    contextMenu("http://the-internet.herokuapp.com/context_menu");
+    contextMenu("http://the-internet.herokuapp.com/context_menu"),
+    disappearingElements("http://the-internet.herokuapp.com/disappearing_elements"),
+    dragAndDrop("http://crossbrowsertesting.github.io/drag-and-drop.html"),
+    dropdownList("http://the-internet.herokuapp.com/dropdown");
 
     Urls(String url) {
         this.value = url;

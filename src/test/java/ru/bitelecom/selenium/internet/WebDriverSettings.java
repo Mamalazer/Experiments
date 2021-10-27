@@ -22,16 +22,16 @@ public class WebDriverSettings {
         System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER"));
         chromeDriver = new ChromeDriver();
         chromeDriver.manage().window().maximize();
-        chromeDriver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-        chromeDriver.manage().timeouts().setScriptTimeout(40, TimeUnit.SECONDS);
-        chromeDriver.manage().timeouts().implicitlyWait(40, TimeUnit.SECONDS);
+        chromeDriver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
+        chromeDriver.manage().timeouts().setScriptTimeout(20, TimeUnit.SECONDS);
+        chromeDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         wait = new WebDriverWait(chromeDriver, 10);
     }
 
     @AfterEach
     public void closeBrowser() {
-        chromeDriver.quit();
+        //chromeDriver.quit();
     }
 
     //    @BeforeEach

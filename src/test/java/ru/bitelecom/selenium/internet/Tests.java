@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -58,12 +59,62 @@ public class Tests extends WebDriverSettings {
         Actions action = new Actions(chromeDriver);
         action.contextClick(button).build().perform();
         String alert = wait.until(ExpectedConditions.alertIsPresent()).getText();
+
         if (alert.equals("You selected a context menu")) {
             chromeDriver.switchTo().alert().accept();
         } else {
             Assertions.fail("Правая кнопка мыши не сработала");
         }
+    }
 
+    @Test
+    @DisplayName("Disappearing Elements")
+    public void disappearingElements() {
+        chromeDriver.get(disappearingElements.value);
+        List<WebElement> elements = chromeDriver.findElements(By.xpath("//a[text()='Gallery']"));
+
+        if (elements.size() > 0) {
+            elements.stream()
+                    .findFirst()
+                    .get()
+                    .click();
+
+            Assertions.assertTrue(chromeDriver.findElement(By.xpath("//h1[text()='Not Found']")).isDisplayed(),
+                    "Переход не осуществлён");
+        }
+
+    }
+
+    @Test
+    @DisplayName("Drag and Drop")
+    public void dragAndDrop() {
+        chromeDriver.get(dragAndDrop.value);
+        Actions action = new Actions(chromeDriver);
+        WebElement a = chromeDriver.findElement(By.xpath("//div[@id='draggable']"));
+        WebElement b = chromeDriver.findElement(By.xpath("//div[@id='droppable']"));
+        WebElement check = chromeDriver.findElement(By.xpath("//div[@id='droppable']/p"));
+
+        action.moveToElement(a).clickAndHold().moveToElement(b).release().build().perform();
+
+        Assertions.assertEquals("Dropped!", check.getText(), "Элемент не перенесён");
+
+    }
+
+    @Test
+    @DisplayName("Dropdown List")
+    public void dropdownList() {
+        chromeDriver.get(dropdownList.value);
+        Select select = new Select(chromeDriver.findElement(By.id("dropdown")));
+        List<WebElement> options = select.getOptions();
+
+        select.selectByVisibleText("Option 1");
+        Assertions.assertTrue(options.get(1).isSelected(), "Опция 1 не выбрана");
+
+        select.selectByIndex(2);
+        Assertions.assertTrue(options.get(2).isSelected(), "Опция 2 не выбрана");
+
+        select.selectByValue("1");
+        Assertions.assertTrue(options.get(1).isSelected(), "Опция 1 не выбрана");
     }
 
 }
