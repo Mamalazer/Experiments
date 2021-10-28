@@ -8,7 +8,8 @@ public enum Urls {
     contextMenu("http://the-internet.herokuapp.com/context_menu"),
     disappearingElements("http://the-internet.herokuapp.com/disappearing_elements"),
     dragAndDrop("http://crossbrowsertesting.github.io/drag-and-drop.html"),
-    dropdownList("http://the-internet.herokuapp.com/dropdown");
+    dropdownList("http://the-internet.herokuapp.com/dropdown"),
+    dynamicControls("http://the-internet.herokuapp.com/dynamic_controls");
 
     Urls(String url) {
         this.value = url;
