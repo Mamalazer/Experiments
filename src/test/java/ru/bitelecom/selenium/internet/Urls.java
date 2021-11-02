@@ -9,9 +9,14 @@ public enum Urls {
     disappearingElements("http://the-internet.herokuapp.com/disappearing_elements"),
     dragAndDrop("http://crossbrowsertesting.github.io/drag-and-drop.html"),
     dropdownList("http://the-internet.herokuapp.com/dropdown"),
-    dynamicControls("http://the-internet.herokuapp.com/dynamic_controls");
+    dynamicControls("http://the-internet.herokuapp.com/dynamic_controls"),
+    entryAd("http://the-internet.herokuapp.com/entry_ad"),
+    downloadFile("http://the-internet.herokuapp.com/download"),
+    uploadFile("http://the-internet.herokuapp.com/upload"),
+    formAuthentication("http://the-internet.herokuapp.com/login"),
+    frames("http://the-internet.herokuapp.com/frames");
 
-    Urls(String url) {
+    private Urls(String url) {
         this.value = url;
     }
 

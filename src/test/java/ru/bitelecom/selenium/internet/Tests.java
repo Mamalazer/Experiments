@@ -1,5 +1,11 @@
 package ru.bitelecom.selenium.internet;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.BasicHttpContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,8 +15,12 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
+import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 import static ru.bitelecom.selenium.internet.Urls.*;
 
 public class Tests extends WebDriverSettings {
@@ -165,6 +175,151 @@ public class Tests extends WebDriverSettings {
             wait.until(ExpectedConditions.elementToBeClickable(enableButton));
             Assertions.assertTrue(!chromeDriver.findElement(textField).isEnabled(), "Кнопка \"Disable\" не сработала");
         }
+    }
+
+    @Test
+    @DisplayName("Entry Ad")
+    public void entryAd() {
+        chromeDriver.get(entryAd.value);
+        WebElement modal = chromeDriver.findElement(By.xpath("//div[@id='modal']"));
+
+        if (wait.until(ExpectedConditions.visibilityOf(modal)).isDisplayed()) {
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//p[text()='Close']"))).click();
+            chromeDriver.findElement(By.xpath("//a[@id='restart-ad']")).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//p[text()='Close']"))).click();
+        }
+    }
+
+    @Test
+    @DisplayName("Download file")
+    public void downloadFile() {
+        chromeDriver.get(downloadFile.value);
+
+        String link = chromeDriver.findElement(By.xpath("//a[text()='200x200.png']")).getAttribute("href");
+        //Set file to save
+        File fileToSave = new File("C:\\Users\\drkuznetsov\\IdeaProjects\\bi_telecom\\200x200.png");
+
+        //Download file using default org.apache.http client
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(link);
+        HttpResponse response = null;
+
+        try {
+            response = httpClient.execute(httpGet, new BasicHttpContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Save file on disk
+        try {
+            copyInputStreamToFile(response.getEntity().getContent(), fileToSave);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @DisplayName("Upload file")
+    public void uploadFile() {
+        chromeDriver.get(uploadFile.value);
+
+        chromeDriver.findElement(By.xpath("//input[@id='file-upload']"))
+                .sendKeys("C:\\Users\\drkuznetsov\\IdeaProjects\\bi_telecom\\Test.txt");
+        chromeDriver.findElement(By.xpath("//input[@id='file-submit']")).click();
+
+        Assertions.assertEquals(chromeDriver.findElement(By.xpath("//h3[text()='File Uploaded!']")).getText(),
+                "File Uploaded!" , "Файл не загружен");
+    }
+
+    @Test
+    @DisplayName("Positive Form Authentication")
+    public void formAuthenticationPoz() {
+        chromeDriver.get(formAuthentication.value);
+
+        chromeDriver.findElement(By.xpath("//input[@name='username']")).sendKeys("tomsmith");
+        chromeDriver.findElement(By.xpath("//input[@name='password']")).sendKeys("SuperSecretPassword!");
+        chromeDriver.findElement(By.xpath("//button[@type='submit']")).click();
+
+        String mainPage = chromeDriver.getWindowHandle();
+        Set<String> handles = chromeDriver.getWindowHandles();
+        for (String handle : handles) {
+            chromeDriver.switchTo().window(handle);
+        }
+
+        chromeDriver.findElement(By.xpath("//a[@class='button secondary radius']")).click();
+        chromeDriver.switchTo().window(mainPage);
+
+        boolean check = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='radius']")))
+                .isDisplayed();
+        Assertions.assertTrue(check, "Error in logout");
+
+    }
+
+    @Test
+    @DisplayName("Negative Form Authentication")
+    public void formAuthenticationNeg() {
+        chromeDriver.get(formAuthentication.value);
+
+        chromeDriver.findElement(By.xpath("//input[@name='username']")).sendKeys("dansmith");
+        chromeDriver.findElement(By.xpath("//input[@name='password']")).sendKeys("SuperSecretPassword!");
+        chromeDriver.findElement(By.xpath("//button[@type='submit']")).click();
+
+        boolean check = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='flash error']")))
+                .isDisplayed();
+        Assertions.assertTrue(check, "Auth with wrong credentials completed");
+    }
+
+    @Test
+    @DisplayName("Nested frames")
+    public void nestedFrames() {
+        chromeDriver.get(frames.value);
+
+        chromeDriver.findElement(By.xpath("//a[text()='Nested Frames']")).click();
+
+        chromeDriver.switchTo().frame("frame-top");
+        chromeDriver.switchTo().frame("frame-left");
+        Assertions.assertEquals(chromeDriver.findElement(By.xpath(".//html/body")).getText(), "LEFT", "frame LEFT не выбран");
+
+        Set<String> handles = chromeDriver.getWindowHandles();
+        for (String handle : handles) {
+            chromeDriver.switchTo().window(handle);
+        }
+
+        chromeDriver.switchTo().frame("frame-top");
+        chromeDriver.switchTo().frame("frame-middle");
+        Assertions.assertEquals(chromeDriver.findElement(By.xpath(".//html/body")).getText(), "MIDDLE", "frame MIDDLE не выбран");
+
+        for (String handle : handles) {
+            chromeDriver.switchTo().window(handle);
+        }
+
+        chromeDriver.switchTo().frame("frame-top");
+        chromeDriver.switchTo().frame("frame-right");
+        Assertions.assertEquals(chromeDriver.findElement(By.xpath(".//html/body")).getText(), "RIGHT", "frame RIGHT не выбран");
+
+    }
+
+    @Test
+    @DisplayName("iFrame")
+    public void iFrame() {
+        chromeDriver.get(frames.value);
+
+        chromeDriver.findElement(By.xpath("//a[text()='iFrame']")).click();
+
+        chromeDriver.switchTo().frame("mce_0_ifr");
+        chromeDriver.findElement(By.xpath("//body[@id='tinymce']/p")).clear();
+        chromeDriver.findElement(By.xpath("//body[@id='tinymce']/p")).sendKeys("Hello dude!");
+
+        Set<String> handles = chromeDriver.getWindowHandles();
+        for (String handle : handles) {
+            chromeDriver.switchTo().window(handle);
+        }
+
+        chromeDriver.findElement(By.xpath("//button[@title='Align center']")).click();
+
+        chromeDriver.switchTo().frame("mce_0_ifr");
+        chromeDriver.findElement(By.xpath("//body[@id='tinymce']/p")).clear();
+
     }
 
 }
