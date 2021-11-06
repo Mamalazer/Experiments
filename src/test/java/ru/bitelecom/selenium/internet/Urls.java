@@ -14,7 +14,10 @@ public enum Urls {
     downloadFile("http://the-internet.herokuapp.com/download"),
     uploadFile("http://the-internet.herokuapp.com/upload"),
     formAuthentication("http://the-internet.herokuapp.com/login"),
-    frames("http://the-internet.herokuapp.com/frames");
+    frames("http://the-internet.herokuapp.com/frames"),
+    horizontalSlider("http://the-internet.herokuapp.com/horizontal_slider"),
+    hovers("http://the-internet.herokuapp.com/hovers"),
+    scroll("http://the-internet.herokuapp.com/infinite_scroll");
 
     private Urls(String url) {
         this.value = url;

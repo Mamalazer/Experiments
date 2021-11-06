@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -320,6 +322,54 @@ public class Tests extends WebDriverSettings {
         chromeDriver.switchTo().frame("mce_0_ifr");
         chromeDriver.findElement(By.xpath("//body[@id='tinymce']/p")).clear();
 
+    }
+
+    @Test
+    @DisplayName("Horizontal Slider")
+    public void horizontalSlider() {
+        chromeDriver.get(horizontalSlider.value);
+        WebElement slider = chromeDriver.findElement(By.xpath("//div[@class='sliderContainer']/child::input"));
+        WebElement sliderId = chromeDriver.findElement(By.xpath("//div[@class='sliderContainer']/span[@id='range']"));
+        Actions action = new Actions(chromeDriver);
+
+        slider.click();
+        for (int i = 0; i < 10; i++) {
+            slider.sendKeys(Keys.ARROW_RIGHT);
+        }
+
+        Assertions.assertEquals(sliderId.getText(), "5",
+                "Передвижение слайдера с помощью клавиши Right не сработало");
+
+        for (int i = 10; i > 0; i--) {
+            slider.sendKeys(Keys.ARROW_LEFT);
+        }
+
+        Assertions.assertEquals(sliderId.getText(), "0",
+                "Передвижение слайдера с помощью клавиши Left не сработало");
+
+        action.moveToElement(slider).build().perform();
+        action.clickAndHold().moveToElement(sliderId).release().build().perform();
+
+        Assertions.assertEquals(sliderId.getText(), "5",
+                "Передвижение слайдера с помощью Action не сработало");
+
+    }
+
+    @Test
+    @DisplayName("Hovers")
+    public void hovers() {
+        chromeDriver.get(hovers.value);
+        Actions action = new Actions(chromeDriver);
+        action.moveToElement(chromeDriver.findElement(By.xpath("//h5[text()='name: user1']/parent::div/parent::div"))).build().perform();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='name: user1']/following-sibling::a"))).click();
+
+        Set<String> handles = chromeDriver.getWindowHandles();
+        for (String handle : handles) {
+            chromeDriver.switchTo().window(handle);
+        }
+
+        Assertions.assertEquals(chromeDriver.findElement(By.xpath("//h1[text()='Not Found']")).getText(),
+                "Not Found", "Переход в профиль не выполнен");
     }
 
 }
