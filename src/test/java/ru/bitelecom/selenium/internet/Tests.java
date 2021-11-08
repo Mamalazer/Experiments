@@ -9,10 +9,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -24,6 +21,7 @@ import java.util.Set;
 
 import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 import static ru.bitelecom.selenium.internet.Urls.*;
+import static ru.bitelecom.selenium.internet.Utils.saveFile;
 
 public class Tests extends WebDriverSettings {
 
@@ -370,6 +368,80 @@ public class Tests extends WebDriverSettings {
 
         Assertions.assertEquals(chromeDriver.findElement(By.xpath("//h1[text()='Not Found']")).getText(),
                 "Not Found", "Переход в профиль не выполнен");
+    }
+
+    @Test
+    @DisplayName("Input numbers")
+    public void inputNumbers() {
+        chromeDriver.get(inputNumbers.value);
+        WebElement numberField = chromeDriver.findElement(By.xpath("//p[text()='Number']/following-sibling::input"));
+        String text = "33";
+
+        numberField.sendKeys(text);
+    }
+
+    @Test
+    @DisplayName("JqueryUI-Menu")
+    public void jQuery() {
+        chromeDriver.get(jQuery.value);
+        Actions action = new Actions(chromeDriver);
+
+        action.moveToElement(chromeDriver.findElement(By.xpath("//a[@id='ui-id-2']"))).build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='ui-id-4']")));
+        action.moveToElement(chromeDriver.findElement(By.xpath("//a[@id='ui-id-4']"))).build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@id='ui-id-6']")));
+
+        String linkPdf = chromeDriver.findElement(By.xpath("//a[@id='ui-id-6']")).getAttribute("href");
+        String linkCsv = chromeDriver.findElement(By.xpath("//a[@id='ui-id-7']")).getAttribute("href");
+        String linkExcel = chromeDriver.findElement(By.xpath("//a[@id='ui-id-8']")).getAttribute("href");
+
+        saveFile(linkPdf, "menu.pdf");
+        saveFile(linkCsv, "menu.csv");
+        saveFile(linkExcel, "menu.xls");
+
+    }
+
+    @Test
+    @DisplayName("JavaScript alert")
+    public void jsAlert() {
+        chromeDriver.get(jsAlert.value);
+
+        chromeDriver.findElement(By.xpath("//button[contains(.,'JS Alert')]")).click();
+        wait.until(ExpectedConditions.alertIsPresent()).dismiss();
+
+        Assertions.assertEquals(chromeDriver.findElement(By.id("result")).getText(),
+                "You successfully clicked an alert", "Алерт не появился или не был закрыт");
+    }
+
+    @Test
+    @DisplayName("JavaScript confirm alert")
+    public void jsConfirmAlert() {
+        chromeDriver.get(jsAlert.value);
+
+        chromeDriver.findElement(By.xpath("//button[contains(.,'JS Confirm')]")).click();
+        wait.until(ExpectedConditions.alertIsPresent()).accept();
+
+        Assertions.assertEquals(chromeDriver.findElement(By.id("result")).getText(),
+                "Ok", "Алерт не появился или не был принят");
+    }
+
+    @Test
+    @DisplayName("JavaScript prompt alert")
+    public void jsPromptAlert() {
+        chromeDriver.get(jsAlert.value);
+
+        chromeDriver.findElement(By.xpath("//button[contains(.,'JS Prompt')]")).click();
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = chromeDriver.switchTo().alert();
+
+        Assertions.assertEquals(chromeDriver.switchTo().alert().getText(), "I am a JS prompt",
+                "Текст не отображается в алерте");
+
+        alert.sendKeys("Hi guys, I'm Eminem");
+        alert.accept();
+
+        Assertions.assertEquals(chromeDriver.findElement(By.id("result")).getText(),
+                "You entered: Hi guys, I'm Eminem", "Алерт не появился или не был принят");
     }
 
 }
