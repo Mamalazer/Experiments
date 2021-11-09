@@ -19,7 +19,9 @@ public enum Urls {
     hovers("http://the-internet.herokuapp.com/hovers"),
     inputNumbers("http://the-internet.herokuapp.com/inputs"),
     jQuery("http://the-internet.herokuapp.com/jqueryui/menu"),
-    jsAlert("http://the-internet.herokuapp.com/javascript_alerts");
+    jsAlert("http://the-internet.herokuapp.com/javascript_alerts"),
+    multipleWindows("http://the-internet.herokuapp.com/windows"),
+    notificationMessage("http://the-internet.herokuapp.com/notification_message_rendered");
 
     private Urls(String url) {
         this.value = url;

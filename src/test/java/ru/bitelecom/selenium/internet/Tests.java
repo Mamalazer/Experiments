@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 import static ru.bitelecom.selenium.internet.Urls.*;
@@ -442,6 +443,36 @@ public class Tests extends WebDriverSettings {
 
         Assertions.assertEquals(chromeDriver.findElement(By.id("result")).getText(),
                 "You entered: Hi guys, I'm Eminem", "Алерт не появился или не был принят");
+    }
+
+    @Test
+    @DisplayName("Multiple windows")
+    public void multipleWindows() {
+        chromeDriver.get(multipleWindows.value);
+
+        chromeDriver.findElement(By.xpath("//a[text()='Click Here']")).click();
+
+        Set<String> handles = chromeDriver.getWindowHandles();
+        for (String handle : handles) {
+            chromeDriver.switchTo().window(handle);
+        }
+
+        Assertions.assertEquals(chromeDriver.findElement(By.xpath("//h3[text()='New Window']")).getText(),
+                "New Window", "Переход к новой вкладке не осуществлён");
+    }
+
+    @Test
+    @DisplayName("Notification Message")
+    public void notificationMessage() {
+        chromeDriver.get(notificationMessage.value);
+
+        WebElement button = chromeDriver.findElement(By.xpath("//a[text()='Click here']"));
+        button.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='flash']")));
+        String message = chromeDriver.findElement(By.xpath("//div[@id='flash']")).getText();
+        Assertions.assertTrue(message.contains("Action successful"), "Incorrect Notification Message");
+
     }
 
 }
