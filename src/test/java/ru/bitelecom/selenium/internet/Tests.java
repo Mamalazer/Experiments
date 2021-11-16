@@ -1,6 +1,5 @@
 package ru.bitelecom.selenium.internet;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -9,7 +8,10 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -18,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 import static ru.bitelecom.selenium.internet.Urls.*;
@@ -29,7 +30,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Add/Remove Elements")
     public void addRemoveElements() {
-        chromeDriver.get(addRemoveElements.value);
+        chromeDriver.get(addRemoveElements.url);
         chromeDriver.findElement(By.xpath("//button[text()='Add Element']")).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Delete']"))).click();
         List<WebElement> deleteButton = chromeDriver.findElements(By.xpath("//button[text()='Delete']"));
@@ -39,7 +40,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Basic authorisation")
     public void basicAuth() {
-        chromeDriver.get(basicAuth.value);
+        chromeDriver.get(basicAuth.url);
         String text = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='example']/p"))).getText();
         Assertions.assertEquals(text, "Congratulations! You must have the proper credentials.", "Ошибка при авторизации");
     }
@@ -47,7 +48,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Checkboxes")
     public void checkBoxes() {
-        chromeDriver.get(checkBoxes.value);
+        chromeDriver.get(checkBoxes.url);
         WebElement firstCheckBox = chromeDriver.findElement(By.xpath("//br/preceding-sibling::input"));
         WebElement secondCheckBox = chromeDriver.findElement(By.xpath("//br/following-sibling::input"));
 
@@ -65,7 +66,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Context menu")
     public void contextMenu() {
-        chromeDriver.get(contextMenu.value);
+        chromeDriver.get(contextMenu.url);
         WebElement button = chromeDriver.findElement(By.xpath("//div[@id='hot-spot']"));
         Actions action = new Actions(chromeDriver);
         action.contextClick(button).build().perform();
@@ -81,7 +82,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Disappearing Elements")
     public void disappearingElements() {
-        chromeDriver.get(disappearingElements.value);
+        chromeDriver.get(disappearingElements.url);
         List<WebElement> elements = chromeDriver.findElements(By.xpath("//a[text()='Gallery']"));
 
         if (elements.size() > 0) {
@@ -99,7 +100,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Drag and Drop")
     public void dragAndDrop() {
-        chromeDriver.get(dragAndDrop.value);
+        chromeDriver.get(dragAndDrop.url);
         Actions action = new Actions(chromeDriver);
         WebElement a = chromeDriver.findElement(By.xpath("//div[@id='draggable']"));
         WebElement b = chromeDriver.findElement(By.xpath("//div[@id='droppable']"));
@@ -114,7 +115,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Dropdown List")
     public void dropdownList() {
-        chromeDriver.get(dropdownList.value);
+        chromeDriver.get(dropdownList.url);
         Select select = new Select(chromeDriver.findElement(By.id("dropdown")));
         List<WebElement> options = select.getOptions();
 
@@ -134,7 +135,7 @@ public class Tests extends WebDriverSettings {
         By checkBoxStart = By.xpath("//input[@label='blah']");
         By checkBoxFinish = By.xpath("//input[@id='checkbox']");
 
-        chromeDriver.get(dynamicControls.value);
+        chromeDriver.get(dynamicControls.url);
         List<WebElement> checkBox = chromeDriver.findElements(checkBoxStart);
 
         if (checkBox.size() > 0) {
@@ -162,7 +163,7 @@ public class Tests extends WebDriverSettings {
         By textField = By.xpath("//input[@type='text']");
         By enableButton = By.xpath("//button[text()='Enable']");
 
-        chromeDriver.get(dynamicControls.value);
+        chromeDriver.get(dynamicControls.url);
 
         if (!chromeDriver.findElement(textField).isEnabled()) {
 
@@ -181,7 +182,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Entry Ad")
     public void entryAd() {
-        chromeDriver.get(entryAd.value);
+        chromeDriver.get(entryAd.url);
         WebElement modal = chromeDriver.findElement(By.xpath("//div[@id='modal']"));
 
         if (wait.until(ExpectedConditions.visibilityOf(modal)).isDisplayed()) {
@@ -194,7 +195,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Download file")
     public void downloadFile() {
-        chromeDriver.get(downloadFile.value);
+        chromeDriver.get(downloadFile.url);
 
         String link = chromeDriver.findElement(By.xpath("//a[text()='200x200.png']")).getAttribute("href");
         //Set file to save
@@ -222,7 +223,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Upload file")
     public void uploadFile() {
-        chromeDriver.get(uploadFile.value);
+        chromeDriver.get(uploadFile.url);
 
         chromeDriver.findElement(By.xpath("//input[@id='file-upload']"))
                 .sendKeys("C:\\Users\\drkuznetsov\\IdeaProjects\\bi_telecom\\Test.txt");
@@ -235,7 +236,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Positive Form Authentication")
     public void formAuthenticationPoz() {
-        chromeDriver.get(formAuthentication.value);
+        chromeDriver.get(formAuthentication.url);
 
         chromeDriver.findElement(By.xpath("//input[@name='username']")).sendKeys("tomsmith");
         chromeDriver.findElement(By.xpath("//input[@name='password']")).sendKeys("SuperSecretPassword!");
@@ -259,7 +260,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Negative Form Authentication")
     public void formAuthenticationNeg() {
-        chromeDriver.get(formAuthentication.value);
+        chromeDriver.get(formAuthentication.url);
 
         chromeDriver.findElement(By.xpath("//input[@name='username']")).sendKeys("dansmith");
         chromeDriver.findElement(By.xpath("//input[@name='password']")).sendKeys("SuperSecretPassword!");
@@ -273,7 +274,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Nested frames")
     public void nestedFrames() {
-        chromeDriver.get(frames.value);
+        chromeDriver.get(frames.url);
 
         chromeDriver.findElement(By.xpath("//a[text()='Nested Frames']")).click();
 
@@ -303,7 +304,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("iFrame")
     public void iFrame() {
-        chromeDriver.get(frames.value);
+        chromeDriver.get(frames.url);
 
         chromeDriver.findElement(By.xpath("//a[text()='iFrame']")).click();
 
@@ -326,7 +327,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Horizontal Slider")
     public void horizontalSlider() {
-        chromeDriver.get(horizontalSlider.value);
+        chromeDriver.get(horizontalSlider.url);
         WebElement slider = chromeDriver.findElement(By.xpath("//div[@class='sliderContainer']/child::input"));
         WebElement sliderId = chromeDriver.findElement(By.xpath("//div[@class='sliderContainer']/span[@id='range']"));
         Actions action = new Actions(chromeDriver);
@@ -357,7 +358,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Hovers")
     public void hovers() {
-        chromeDriver.get(hovers.value);
+        chromeDriver.get(hovers.url);
         Actions action = new Actions(chromeDriver);
         action.moveToElement(chromeDriver.findElement(By.xpath("//h5[text()='name: user1']/parent::div/parent::div"))).build().perform();
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='name: user1']/following-sibling::a"))).click();
@@ -374,7 +375,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Input numbers")
     public void inputNumbers() {
-        chromeDriver.get(inputNumbers.value);
+        chromeDriver.get(inputNumbers.url);
         WebElement numberField = chromeDriver.findElement(By.xpath("//p[text()='Number']/following-sibling::input"));
         String text = "33";
 
@@ -384,7 +385,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("JqueryUI-Menu")
     public void jQuery() {
-        chromeDriver.get(jQuery.value);
+        chromeDriver.get(jQuery.url);
         Actions action = new Actions(chromeDriver);
 
         action.moveToElement(chromeDriver.findElement(By.xpath("//a[@id='ui-id-2']"))).build().perform();
@@ -405,7 +406,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("JavaScript alert")
     public void jsAlert() {
-        chromeDriver.get(jsAlert.value);
+        chromeDriver.get(jsAlert.url);
 
         chromeDriver.findElement(By.xpath("//button[contains(.,'JS Alert')]")).click();
         wait.until(ExpectedConditions.alertIsPresent()).dismiss();
@@ -417,7 +418,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("JavaScript confirm alert")
     public void jsConfirmAlert() {
-        chromeDriver.get(jsAlert.value);
+        chromeDriver.get(jsAlert.url);
 
         chromeDriver.findElement(By.xpath("//button[contains(.,'JS Confirm')]")).click();
         wait.until(ExpectedConditions.alertIsPresent()).accept();
@@ -429,7 +430,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("JavaScript prompt alert")
     public void jsPromptAlert() {
-        chromeDriver.get(jsAlert.value);
+        chromeDriver.get(jsAlert.url);
 
         chromeDriver.findElement(By.xpath("//button[contains(.,'JS Prompt')]")).click();
         wait.until(ExpectedConditions.alertIsPresent());
@@ -448,7 +449,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Multiple windows")
     public void multipleWindows() {
-        chromeDriver.get(multipleWindows.value);
+        chromeDriver.get(multipleWindows.url);
 
         chromeDriver.findElement(By.xpath("//a[text()='Click Here']")).click();
 
@@ -464,7 +465,7 @@ public class Tests extends WebDriverSettings {
     @Test
     @DisplayName("Notification Message")
     public void notificationMessage() {
-        chromeDriver.get(notificationMessage.value);
+        chromeDriver.get(notificationMessage.url);
 
         WebElement button = chromeDriver.findElement(By.xpath("//a[text()='Click here']"));
         button.click();

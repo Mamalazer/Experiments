@@ -1,4 +1,4 @@
-package ru.bitelecom.selenium.internet;
+package ru.bitelecom.selenide.internet;
 
 public enum Urls {
 
