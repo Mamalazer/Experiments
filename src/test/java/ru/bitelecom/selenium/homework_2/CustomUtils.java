@@ -1,4 +1,4 @@
-package ru.bitelecom.selenium;
+package ru.bitelecom.selenium.homework_2;
 
 import io.qameta.allure.Attachment;
 import org.apache.commons.io.FileUtils;

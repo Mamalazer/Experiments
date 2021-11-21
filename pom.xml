@@ -30,6 +30,7 @@
         <allure.java.commons.version>2.14.0</allure.java.commons.version>
         <junit.param.version>5.8.0-RC1</junit.param.version>
         <commons.io.version>2.11.0</commons.io.version>
+        <assertj.version>3.20.2</assertj.version>
 
         <!--Плагины-->
         <allure-maven.version>2.10.0</allure-maven.version>
@@ -164,6 +165,14 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
+        </dependency>
+
+        <!-- AssertJ -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
