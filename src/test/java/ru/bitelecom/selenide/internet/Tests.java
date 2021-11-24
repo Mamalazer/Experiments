@@ -92,4 +92,84 @@ public class Tests {
         Assertions.assertEquals("You selected a context menu", text, "Проблема с алертом");
     }
 
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("Disappearing Elements")
+    public void disappearingElements() {
+
+        SelenideElement galleryButton = $x("//a[text()='Gallery']");
+        SelenideElement aboutButton = $x("//a[text()='About']");
+        open(disappearingElements.url);
+
+        if (galleryButton.is(Condition.visible)) {
+            galleryButton.click();
+            $x("//h1[text()='Not Found']").shouldBe(Condition.visible);
+        } else {
+            aboutButton.click();
+            $x("//h1[text()='Not Found']").shouldBe(Condition.visible);
+        }
+    }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("Drag and Drop")
+    public void dragAndDrop() {
+
+        SelenideElement a = $x("//p[text()='Drag me to my target']/parent::div");
+        SelenideElement b = $x("//p[text()='Drop here']/parent::div");
+        SelenideElement check = $x("//div[@id='droppable']/p");
+        open(dragAndDrop.url);
+
+        a.dragAndDropTo(b);
+        Assertions.assertEquals("Dropped!", check.getText(), "Элемент не перенесён");
+    }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("Dropdown List")
+    public void dropdownList() {
+        open(dropdownList.url);
+        SelenideElement dropDown = $x("//select[@id='dropdown']");
+
+        dropDown.selectOption(1);
+        Assertions.assertEquals("Option 1", dropDown.getSelectedText());
+
+        dropDown.selectOption("Option 2");
+        Assertions.assertEquals("2", dropDown.getSelectedValue());
+
+        dropDown.selectOptionByValue("1");
+        Assertions.assertEquals("Option 1", dropDown.getSelectedText());
+    }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("Dynamic Controls")
+    public void dynamicControls() {
+        open(dynamicControls.url);
+        SelenideElement checkBox = $x("//input[@type='checkbox']");
+        SelenideElement removeButton = $x("//button[text()='Remove']");
+        SelenideElement addButton = $x("//button[text()='Add']");
+        SelenideElement textField = $x("//input[@type='text']");
+        SelenideElement enableButton = $x("//button[text()='Enable']");
+        SelenideElement disableButton = $x("//button[text()='Disable']");
+
+        checkBox.shouldNotBe(Condition.selected);
+        removeButton.click();
+        checkBox.shouldNotBe(Condition.visible);
+        addButton.click();
+        checkBox.shouldBe(Condition.visible);
+        checkBox.setSelected(true);
+        Assertions.assertTrue(checkBox.is(Condition.selected), "Чек бокс не активирован");
+
+        textField.shouldBe(Condition.disabled);
+        enableButton.click();
+        textField.shouldBe(Condition.enabled).setValue("Hello, dude");
+        disableButton.click();
+        textField.shouldBe(Condition.disabled);
+    }
+
 }
