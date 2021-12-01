@@ -6,6 +6,7 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Owner;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -287,4 +288,70 @@ public class Tests {
         $x("//button[@aria-label='Align center']").click();
 
     }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("Horizontal Slider")
+    public void horizontalSlider() {
+        open(horizontalSlider.url);
+        SelenideElement slider = $x("//input[@type='range']");
+        SelenideElement sliderRange = $x("//span[@id='range']");
+
+        slider.setValue("2.5");
+        Assertions.assertEquals(slider.attr("value"), sliderRange.getText(),
+                "Слайдер не установлен в положение 2.5");
+
+        actions().moveToElement(slider).build().perform();
+        actions().clickAndHold().moveToElement(sliderRange).release().build().perform();
+        Assertions.assertEquals(slider.attr("value"), sliderRange.getText(),
+                "Слайдер не установлен в положение 5.0");
+
+        slider.sendKeys(Keys.ARROW_LEFT, Keys.ARROW_LEFT);
+        Assertions.assertEquals(slider.attr("value"), sliderRange.getText(),
+                "Слайдер не установлен в положение 4.0");
+
+    }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("Hovers")
+    public void hovers() {
+        open(hovers.url);
+        $x("//h5[contains(text(), 'user1')]/ancestor::div[@class='figure']").hover();
+        $x("//h5[contains(text(), 'user1')]").shouldBe(Condition.visible);
+        $x("//a[text()='View profile']").shouldBe(Condition.visible).click();
+        $x("//h1[text()='Not Found']").shouldBe(Condition.visible);
+    }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("Inputs")
+    public void inputNumbers() {
+        open(inputNumbers.url);
+        SelenideElement field = $x("//input[@type='number']");
+        field.setValue("99999999");
+        field.sendKeys(Keys.ARROW_UP);
+    }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("JQueryUI - Menu")
+    public void jQuery() throws FileNotFoundException {
+        open(jQuery.url);
+        SelenideElement enabledButton = $x("//a[@id='ui-id-2']");
+        SelenideElement downloadButton = $x("//a[@id='ui-id-4']");
+        SelenideElement pdfLink = $x("//a[@id='ui-id-6']");
+
+        enabledButton.shouldBe(Condition.visible);
+        actions().moveToElement(enabledButton).build().perform();
+        downloadButton.shouldBe(Condition.visible);
+        actions().moveToElement(downloadButton).build().perform();
+        pdfLink.shouldBe(Condition.visible).download();
+
+    }
+
 }
