@@ -5,6 +5,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Owner;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -351,6 +352,78 @@ public class Tests {
         downloadButton.shouldBe(Condition.visible);
         actions().moveToElement(downloadButton).build().perform();
         pdfLink.shouldBe(Condition.visible).download();
+
+    }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("JavaScript Alerts")
+    public void jsAlert() {
+        open(jsAlert.url);
+        SelenideElement jsAlert = $x("//button[text()='Click for JS Alert']");
+        SelenideElement jsConfirm = $x("//button[text()='Click for JS Confirm']");
+        SelenideElement jsPrompt = $x("//button[text()='Click for JS Prompt']");
+        SelenideElement resultText = $x("//p[@id='result']");
+
+        jsAlert.click();
+        switchTo().alert().accept();
+        Assertions.assertEquals(resultText.getText(), "You successfully clicked an alert",
+                "jsAlert не был принят");
+
+        jsConfirm.click();
+        switchTo().alert().accept();
+        Assertions.assertEquals(resultText.getText(), "You clicked: Ok",
+                "jsConfirm не был принят");
+
+        jsConfirm.click();
+        switchTo().alert().dismiss();
+        Assertions.assertEquals(resultText.getText(), "You clicked: Cancel",
+                "jsConfirm не был отклонён");
+
+        jsPrompt.click();
+        Alert alert = switchTo().alert();
+        alert.sendKeys("Hello, I'm alert");
+        alert.accept();
+        Assertions.assertEquals(resultText.getText(), "You entered: Hello, I'm alert",
+                "Текст не был передан в jsPrompt");
+
+        jsPrompt.click();
+        alert = switchTo().alert();
+        alert.dismiss();
+        Assertions.assertEquals(resultText.getText(), "You entered: null",
+                "jsPrompt не был отклонён");
+    }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("Opening a new window")
+    public void multipleWindows() {
+        open(multipleWindows.url);
+        $x("//a[text()='Click Here']").click();
+        switchTo().window(1);
+        Assertions.assertEquals("New Window", $x("//h3[text()='New Window']").getText(),
+                "Переход к новой вкладке не осуществлён");
+    }
+
+    @Test
+    @Owner("DRKuznetsov")
+    @Tag("Internet")
+    @DisplayName("Notification Message")
+    public void notificationMessage() {
+        open(notificationMessage.url);
+        SelenideElement button = $x("//a[text()='Click here']");
+        SelenideElement infoStatus = $x("//div[@id='flash']");
+
+        button.click();
+        if (infoStatus.shouldBe(Condition.visible).getText().equals("Action successful\n×")) {
+            Assertions.assertTrue(true);
+        } else if (infoStatus.shouldBe(Condition.visible).getText().equals("Action unsuccesful, please try again\n×")) {
+            Assertions.assertTrue(true);
+        } else {
+            Assertions.fail("Статус не отображается");
+        }
 
     }
 
