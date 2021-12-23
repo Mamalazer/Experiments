@@ -22,10 +22,11 @@
         <allure.version>2.13.2</allure.version>
         <selenium.version>3.141.59</selenium.version>
         <selenide.version>5.24.0</selenide.version>
-        <log4j.version>2.13.3</log4j.version>
+        <log4j.version>2.17.0</log4j.version>
         <io.rest-assured.version>4.3.2</io.rest-assured.version>
         <fasterxml.jackson.version>2.10.3</fasterxml.jackson.version>
         <org.json.version>20190722</org.json.version>
+        <webdrivermanager>5.0.3</webdrivermanager>
 
         <allure.java.commons.version>2.14.0</allure.java.commons.version>
         <junit.param.version>5.8.0-RC1</junit.param.version>
@@ -179,7 +180,7 @@
 <!--        <dependency>-->
 <!--            <groupId>io.github.bonigarcia</groupId>-->
 <!--            <artifactId>webdrivermanager</artifactId>-->
-<!--            <version>5.0.3</version>-->
+<!--            <version>${webdrivermanager}</version>-->
 <!--        </dependency>-->
 
     </dependencies>
