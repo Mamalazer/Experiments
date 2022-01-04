@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -13,12 +14,16 @@ import java.util.concurrent.TimeUnit;
 public class WebDriverSettings {
 
     WebDriver chromeDriver;
+    WebDriverWait wait;
 
     @BeforeEach
     public void installSettings() {
-        System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
-        //System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER"));
+        //System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER"));
+//        WebDriverManager.chromedriver().setup(); // Если работаем с библиотекой WebDriverManager, которая загружает веб драйвер
         chromeDriver = new ChromeDriver();
+        wait = new WebDriverWait(chromeDriver, 10);
+
         chromeDriver.manage().window().maximize();
         chromeDriver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
         chromeDriver.manage().timeouts().setScriptTimeout(40, TimeUnit.SECONDS);
