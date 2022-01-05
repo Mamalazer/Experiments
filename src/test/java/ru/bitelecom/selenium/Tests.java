@@ -1,14 +1,11 @@
 package ru.bitelecom.selenium;
 
-import io.qameta.allure.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
-import java.util.Map;
 
 public class Tests extends WebDriverSettings {
 
